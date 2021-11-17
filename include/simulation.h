@@ -19,10 +19,15 @@ typedef struct {
 Body new_body(unsigned int mass, unsigned int radius, unsigned int pos[2], unsigned int texture[2]);
 
 typedef struct {
-    Body player;
-    u32 *velocity; // pixels / second
     Body *bodies;
     size_t bodies_len;
+} Map;
+
+typedef struct {
+    Body player;
+    u32 *velocity; // pixels / second
+    Map *maps;
+    size_t map_len;
 } Simulation;
 
 Simulation *init_sim(Body player, Body *bodies, size_t bodies_len);

@@ -100,7 +100,7 @@ void calculate_player(Simulation *sim, int interval) { // interval = millisecond
         else
             sim->player.pos[j] += distances[j];
     }
-    if ( < 0) // DO THIS
+    // if ( < 0) // DO THIS
     printf("ACCEL: %d, %d\n", acceleration[0], acceleration[1]);
     printf("VELOCITY: %d, %d\n", sim->velocity[0], sim->velocity[1]);
     printf("CHANGES: %d, %d\n", distances[0], distances[1]);

@@ -3,7 +3,11 @@
 #include <number/number.h>
 
 typedef struct {
-    int event_type;
+    uint32_t event_type;
+    union {
+        SDL_Keycode key; // SDL_KeyboardEvent.keysym
+        uint8_t button; // SDL_KeyboardEvent.button
+    } event_info;
     int (*callback)(struct Instance *instance, SDL_Event *event);
 } Callback;
 
@@ -17,7 +21,7 @@ typedef struct {
 typedef struct Instance {
     // char ***hints; // [hints_len, 2, string]
     // size_t hints_len;
-    int framerate;
+    int delay: 10;
     int w, h;
     char *name;
     u32 flags;
@@ -25,6 +29,7 @@ typedef struct Instance {
     SDL_Renderer *renderer;
     SDL_Texture *background;
     SDL_Texture *spritesheet;
+    int (*each_turn)(struct Instance *instance);
     Callback *default_callbacks;
     Callback *callbacks; // [callbacks_len] - funcs to callback to on event completion; returns nonzero value to end program
     size_t callbacks_len;
@@ -42,6 +47,6 @@ void render_instance(Instance *instance);
 
 void render_body(Instance *instance, Body *body);
 
-int exit_instance(Instance *instance, char *type, char *error, int errno);
+int exit_instance(Instance *instance, const char *type, int errno);
 
 int destroy_instance(Instance *instance);
